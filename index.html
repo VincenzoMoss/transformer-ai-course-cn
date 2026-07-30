@@ -1669,17 +1669,6 @@
       background: var(--ink);
     }
 
-    .prediction-start-token.is-sampled {
-      border-style: solid;
-      border-color: #94310c;
-      background: #ffae29;
-      animation: prediction-sampled-enter .52s 1.62s both;
-    }
-
-    .prediction-start-token.is-sampled::after {
-      opacity: 0;
-    }
-
     .prediction-sampling-guide {
       width: min(560px, 88%);
       height: 0;
@@ -1691,7 +1680,7 @@
     }
 
     .prediction-sampling-guide.is-visible {
-      height: 22px;
+      height: 42px;
       margin-top: 24px;
       opacity: 1;
       visibility: visible;
@@ -1750,6 +1739,15 @@
       font: 700 11px/1.2 var(--sans);
       text-align: center;
       transform: translateX(-50%);
+    }
+
+    .prediction-temperature__rule {
+      display: block;
+      margin-top: 24px;
+      color: var(--ink-soft);
+      font: 600 11px/1.35 var(--sans);
+      text-align: center;
+      letter-spacing: .02em;
     }
 
     .prediction-temperature__value span,
@@ -1852,66 +1850,6 @@
       display: none;
     }
 
-    .prediction-options.is-sampling .prediction-token.is-sampled {
-      border-style: solid;
-      border-color: #94310c;
-      box-shadow: 0 0 0 3px rgba(255, 174, 41, .34);
-      animation: prediction-sampling-choice-cycle 12s .35s ease-in-out infinite;
-    }
-
-    .prediction-options.is-sampling [data-prediction-row="2"] {
-      animation: prediction-third-candidate-cycle 12s .35s ease-in-out infinite;
-    }
-
-    .prediction-options.is-sampling [data-prediction-row="3"] {
-      animation: prediction-fourth-candidate-cycle 12s .35s ease-in-out infinite;
-    }
-
-    .prediction-sampling-range {
-      position: absolute;
-      z-index: 3;
-      left: 12px;
-      top: 14px;
-      width: calc(75% - 9px);
-      height: calc(100% - 28px);
-      border: 1.5px solid #94310c;
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    .prediction-sampling-range.is-visible {
-      animation: prediction-sampling-range-cycle 12s .35s ease-in-out infinite;
-    }
-
-    .prediction-sampling-range span {
-      position: absolute;
-      left: 10px;
-      top: -9px;
-      padding: 0 6px;
-      color: #94310c;
-      background: var(--paper);
-      font: 700 12px/1.4 var(--sans);
-      letter-spacing: .025em;
-    }
-
-    .prediction-sampling-excluded {
-      position: absolute;
-      z-index: 4;
-      right: 4.5%;
-      top: 15px;
-      display: none;
-      color: var(--ink-soft);
-      font: 700 11px/1.3 var(--sans);
-      letter-spacing: .03em;
-      transform: translateX(50%);
-      pointer-events: none;
-    }
-
-    .prediction-sampling-excluded.is-visible {
-      display: block;
-      animation: prediction-sampling-excluded-cycle 12s .35s ease-in-out infinite;
-    }
-
     .prediction-row {
       display: flex;
       align-items: stretch;
@@ -2012,52 +1950,6 @@
       0%, 70% { opacity: 0; transform: translateY(3px); }
       75%, 93% { opacity: 1; transform: translateY(0); }
       98%, 100% { opacity: 0; transform: translateY(-3px); }
-    }
-
-    @keyframes prediction-sampling-range-cycle {
-      0%, 18% { width: calc(50% - 6px); opacity: 1; }
-      25%, 68% { width: calc(75% - 9px); opacity: 1; }
-      75%, 93% { width: calc(100% - 24px); opacity: 1; }
-      100% { width: calc(50% - 6px); opacity: 1; }
-    }
-
-    @keyframes prediction-sampling-excluded-cycle {
-      0%, 18% { right: 47%; opacity: 1; }
-      25%, 68% { right: 22%; opacity: 1; }
-      75%, 93% { right: 3%; opacity: 0; }
-      100% { right: 47%; opacity: 1; }
-    }
-
-    @keyframes prediction-third-candidate-cycle {
-      0%, 18% { opacity: .46; filter: saturate(.4); }
-      25%, 100% { opacity: 1; filter: saturate(1); }
-    }
-
-    @keyframes prediction-fourth-candidate-cycle {
-      0%, 68% { opacity: .46; filter: saturate(.4); }
-      75%, 93% { opacity: 1; filter: saturate(1); }
-      100% { opacity: .46; filter: saturate(.4); }
-    }
-
-    @keyframes prediction-sampling-choice-cycle {
-      0%, 54%, 64%, 100% { transform: translateY(0); }
-      59% { transform: translateY(-6px); }
-    }
-
-    @keyframes prediction-sampling-range {
-      from { opacity: 0; transform: scale(.98); }
-      to { opacity: 1; transform: scale(1); }
-    }
-
-    @keyframes prediction-sampling-choice {
-      0%, 45% { transform: translateY(0); }
-      70% { transform: translateY(-6px); }
-      100% { transform: translateY(0); }
-    }
-
-    @keyframes prediction-sampled-enter {
-      from { opacity: .2; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
     }
 
     .narration-stack {
@@ -2685,21 +2577,6 @@
         padding-inline: 3px;
       }
 
-      .prediction-sampling-range span {
-        left: 5px;
-        font-size: 9px;
-      }
-
-      .prediction-sampling-range {
-        width: calc(75% - 14px);
-      }
-
-      .prediction-sampling-excluded {
-        right: 6.5%;
-        top: 13px;
-        font-size: 8px;
-      }
-
       .prediction-row {
         gap: 4px;
         min-height: 42px;
@@ -3168,10 +3045,9 @@
                   </span>
                   <span>更多样</span>
                 </div>
+                <span class="prediction-temperature__rule">只重塑概率，不直接筛选候选</span>
               </div>
               <div class="prediction-options" id="predictionOptions">
-                <div class="prediction-sampling-range" id="predictionSamplingRange"><span>Top-p 候选范围 · 累计约 90%</span></div>
-                <div class="prediction-sampling-excluded" id="predictionSamplingExcluded">范围外</div>
                 <div class="prediction-row" data-prediction-row="0" style="--sampling-height-1:92px;--sampling-height-2:71px;--sampling-height-3:60px;--sampling-height-4:53px;--sampling-color:#94310c">
                   <span class="prediction-sampling-probability"><span class="prediction-cycle-state-1">69%</span><span class="prediction-cycle-state-2">51%</span><span class="prediction-cycle-state-3">41%</span><span class="prediction-cycle-state-4">35%</span></span>
                   <span class="prediction-token" data-prediction-token="0" style="--probability-color:#94310c;--probability-ink:#fff">关于</span>
@@ -3218,7 +3094,7 @@
             <span class="step__note">概率分数是概念性教学示意，不是真实模型输出。</span>
           </div>
           <div class="narration" data-prediction-narration="3">
-            <p>模型不一定每次都选择最高分候选。<span class="term">Temperature</span> 改变概率分布的集中程度，Top-p 限定参与选择的候选范围，系统再从中采样一个 Token。</p>
+            <p><span class="term">Temperature</span> 先重塑所有候选的概率分布，但不直接删除候选。真正筛选时，Top-p 再根据调整后的概率，按累计概率划定候选范围，系统最后从范围内采样一个 Token。</p>
             <span class="step__note">不同产品采用的组合不同；许多新模型会使用服务商优化后的默认设置。概率与分词均为教学示意。</span>
           </div>
           <div class="narration" data-prediction-narration="4">
@@ -3334,8 +3210,6 @@
       const predictionLegend = document.querySelector("#predictionLegend");
       const predictionOptions = document.querySelector("#predictionOptions");
       const predictionSamplingGuide = document.querySelector("#predictionSamplingGuide");
-      const predictionSamplingRange = document.querySelector("#predictionSamplingRange");
-      const predictionSamplingExcluded = document.querySelector("#predictionSamplingExcluded");
       const predictionPlaceholder = document.querySelector("#predictionPlaceholder");
       const predictionRows = [...predictionScrolly.querySelectorAll("[data-prediction-row]")];
       const predictionSteps = [...predictionScrolly.querySelectorAll("[data-prediction-step]")];
@@ -3835,7 +3709,7 @@
         "输入已经完成编码",
         "反复预测下一 Token",
         "每个候选都有概率",
-        "采样：从候选范围中选一个",
+        "Temperature：重塑概率分布",
         "选出一个，再继续预测",
         "贪心搜索：只看当前最高分",
         "Beam Search：保留多条路径",
@@ -4426,15 +4300,12 @@
         setPredictionScene(predictionPipeline, pipelineIsVisible ? 1 : 0);
         setPredictionScene(predictionBeam, pipelineIsVisible ? 0 : 1);
 
-        const samplingIsVisible = active === 3;
+        const temperatureIsVisible = active === 3;
         const legendVisible = (active >= 2 && active <= 5) || active >= 7;
         predictionLegend.classList.toggle("is-visible", legendVisible);
-        predictionOptions.classList.toggle("is-sampling", samplingIsVisible);
-        predictionSamplingGuide.classList.toggle("is-visible", samplingIsVisible);
-        predictionSamplingRange.classList.toggle("is-visible", samplingIsVisible);
-        predictionSamplingExcluded.classList.toggle("is-visible", samplingIsVisible);
-        predictionPlaceholder.classList.toggle("is-sampled", samplingIsVisible);
-        predictionPlaceholder.textContent = samplingIsVisible ? "一种" : "……";
+        predictionOptions.classList.toggle("is-sampling", temperatureIsVisible);
+        predictionSamplingGuide.classList.toggle("is-visible", temperatureIsVisible);
+        predictionPlaceholder.textContent = "……";
 
         predictionRows.forEach((row, rowIndex) => {
           const tokens = [...row.querySelectorAll("[data-prediction-token]")];
@@ -4476,7 +4347,6 @@
 
             token.classList.toggle("is-visible", visible);
             token.classList.toggle("is-probability", probabilityToken);
-            token.classList.toggle("is-sampled", samplingIsVisible && rowIndex === 2 && tokenIndex === 0);
             token.style.transitionDelay = (
               active >= 6 && active < 8 && visible
                 ? `${Math.min(520, rowIndex * 70 + tokenIndex * 55)}ms`
