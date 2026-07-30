@@ -1737,7 +1737,7 @@
     }
 
     .prediction-sampling-guide.is-visible .prediction-temperature__knob {
-      animation: prediction-temperature-spread .72s .18s both;
+      animation: prediction-temperature-spread 1.15s .3s both;
     }
 
     .prediction-options {
@@ -1785,7 +1785,7 @@
       border: 1px solid var(--line-strong);
       background: var(--sampling-color);
       transform-origin: bottom;
-      animation: prediction-temperature-bars .72s .18s both;
+      animation: prediction-temperature-bars 1s 1.18s both;
     }
 
     .prediction-sampling-probability {
@@ -1809,11 +1809,11 @@
     }
 
     .prediction-sampling-probability__start {
-      animation: prediction-probability-start .72s .18s both;
+      animation: prediction-probability-start 1s 1.18s both;
     }
 
     .prediction-sampling-probability__end {
-      animation: prediction-probability-end .72s .18s both;
+      animation: prediction-probability-end 1s 1.18s both;
     }
 
     .prediction-options.is-sampling .prediction-token {
@@ -1830,13 +1830,13 @@
       border-style: solid;
       border-color: #94310c;
       box-shadow: 0 0 0 3px rgba(255, 174, 41, .34);
-      animation: prediction-sampling-choice .62s 1.48s both;
+      animation: prediction-sampling-choice .62s 2.42s both;
     }
 
     .prediction-options.is-sampling [data-prediction-row="3"] {
       opacity: .46;
       filter: saturate(.4);
-      transition: opacity .3s 1.12s ease, filter .3s 1.12s ease;
+      transition: opacity .3s 2.12s ease, filter .3s 2.12s ease;
     }
 
     .prediction-sampling-range {
@@ -1852,7 +1852,7 @@
     }
 
     .prediction-sampling-range.is-visible {
-      animation: prediction-sampling-range .38s 1.08s both;
+      animation: prediction-sampling-range .38s 2.08s both;
     }
 
     .prediction-sampling-range span {
@@ -1881,7 +1881,7 @@
 
     .prediction-sampling-excluded.is-visible {
       display: block;
-      animation: prediction-sampling-range .32s 1.12s both;
+      animation: prediction-sampling-range .32s 2.12s both;
     }
 
     .prediction-row {
@@ -1947,13 +1947,27 @@
     }
 
     @keyframes prediction-temperature-spread {
-      from { left: 22%; }
-      to { left: 55%; }
+      0% {
+        left: 22%;
+        box-shadow: 0 0 0 0 rgba(255, 174, 41, 0);
+      }
+      72% {
+        left: 55%;
+        box-shadow: 0 0 0 0 rgba(255, 174, 41, .36);
+      }
+      86% {
+        left: 55%;
+        box-shadow: 0 0 0 7px rgba(255, 174, 41, .18);
+      }
+      100% {
+        left: 55%;
+        box-shadow: 0 0 0 0 rgba(255, 174, 41, 0);
+      }
     }
 
     @keyframes prediction-temperature-bars {
-      from { height: var(--sampling-start-height); }
-      to { height: var(--sampling-height); }
+      0%, 12% { height: var(--sampling-start-height); }
+      100% { height: var(--sampling-height); }
     }
 
     @keyframes prediction-probability-start {
