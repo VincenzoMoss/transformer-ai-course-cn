@@ -1737,7 +1737,46 @@
     }
 
     .prediction-sampling-guide.is-visible .prediction-temperature__knob {
-      animation: prediction-temperature-spread 1.15s .3s both;
+      animation: prediction-temperature-cycle 12s .35s ease-in-out infinite;
+    }
+
+    .prediction-temperature__value {
+      position: absolute;
+      left: 50%;
+      top: 9px;
+      width: 64px;
+      height: 14px;
+      color: var(--ink-soft);
+      font: 700 11px/1.2 var(--sans);
+      text-align: center;
+      transform: translateX(-50%);
+    }
+
+    .prediction-temperature__value span,
+    .prediction-sampling-probability span {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+    }
+
+    .prediction-sampling-guide.is-visible .prediction-cycle-state-1,
+    .prediction-options.is-sampling .prediction-cycle-state-1 {
+      animation: prediction-cycle-state-1 12s .35s linear infinite;
+    }
+
+    .prediction-sampling-guide.is-visible .prediction-cycle-state-2,
+    .prediction-options.is-sampling .prediction-cycle-state-2 {
+      animation: prediction-cycle-state-2 12s .35s linear infinite;
+    }
+
+    .prediction-sampling-guide.is-visible .prediction-cycle-state-3,
+    .prediction-options.is-sampling .prediction-cycle-state-3 {
+      animation: prediction-cycle-state-3 12s .35s linear infinite;
+    }
+
+    .prediction-sampling-guide.is-visible .prediction-cycle-state-4,
+    .prediction-options.is-sampling .prediction-cycle-state-4 {
+      animation: prediction-cycle-state-4 12s .35s linear infinite;
     }
 
     .prediction-options {
@@ -1781,11 +1820,11 @@
       grid-row: 1;
       align-self: end;
       width: min(54px, 72%);
-      height: var(--sampling-height);
+      height: var(--sampling-height-1);
       border: 1px solid var(--line-strong);
       background: var(--sampling-color);
       transform-origin: bottom;
-      animation: prediction-temperature-bars 1s 1.18s both;
+      animation: prediction-temperature-bars-cycle 12s .35s ease-in-out infinite;
     }
 
     .prediction-sampling-probability {
@@ -1803,19 +1842,6 @@
       text-align: center;
     }
 
-    .prediction-sampling-probability span {
-      position: absolute;
-      inset: 0;
-    }
-
-    .prediction-sampling-probability__start {
-      animation: prediction-probability-start 1s 1.18s both;
-    }
-
-    .prediction-sampling-probability__end {
-      animation: prediction-probability-end 1s 1.18s both;
-    }
-
     .prediction-options.is-sampling .prediction-token {
       grid-row: 3;
       grid-column: 1;
@@ -1830,13 +1856,15 @@
       border-style: solid;
       border-color: #94310c;
       box-shadow: 0 0 0 3px rgba(255, 174, 41, .34);
-      animation: prediction-sampling-choice .62s 2.42s both;
+      animation: prediction-sampling-choice-cycle 12s .35s ease-in-out infinite;
+    }
+
+    .prediction-options.is-sampling [data-prediction-row="2"] {
+      animation: prediction-third-candidate-cycle 12s .35s ease-in-out infinite;
     }
 
     .prediction-options.is-sampling [data-prediction-row="3"] {
-      opacity: .46;
-      filter: saturate(.4);
-      transition: opacity .3s 2.12s ease, filter .3s 2.12s ease;
+      animation: prediction-fourth-candidate-cycle 12s .35s ease-in-out infinite;
     }
 
     .prediction-sampling-range {
@@ -1852,7 +1880,7 @@
     }
 
     .prediction-sampling-range.is-visible {
-      animation: prediction-sampling-range .38s 2.08s both;
+      animation: prediction-sampling-range-cycle 12s .35s ease-in-out infinite;
     }
 
     .prediction-sampling-range span {
@@ -1881,7 +1909,7 @@
 
     .prediction-sampling-excluded.is-visible {
       display: block;
-      animation: prediction-sampling-range .32s 2.12s both;
+      animation: prediction-sampling-excluded-cycle 12s .35s ease-in-out infinite;
     }
 
     .prediction-row {
@@ -1946,38 +1974,74 @@
       border-color: var(--line-strong);
     }
 
-    @keyframes prediction-temperature-spread {
-      0% {
-        left: 22%;
-        box-shadow: 0 0 0 0 rgba(255, 174, 41, 0);
-      }
-      72% {
-        left: 55%;
-        box-shadow: 0 0 0 0 rgba(255, 174, 41, .36);
-      }
-      86% {
-        left: 55%;
-        box-shadow: 0 0 0 7px rgba(255, 174, 41, .18);
-      }
-      100% {
-        left: 55%;
-        box-shadow: 0 0 0 0 rgba(255, 174, 41, 0);
-      }
+    @keyframes prediction-temperature-cycle {
+      0%, 18% { left: 14%; }
+      25%, 43% { left: 37%; }
+      50%, 68% { left: 63%; }
+      75%, 93% { left: 86%; }
+      100% { left: 14%; }
     }
 
-    @keyframes prediction-temperature-bars {
-      0%, 12% { height: var(--sampling-start-height); }
-      100% { height: var(--sampling-height); }
+    @keyframes prediction-temperature-bars-cycle {
+      0%, 18% { height: var(--sampling-height-1); }
+      25%, 43% { height: var(--sampling-height-2); }
+      50%, 68% { height: var(--sampling-height-3); }
+      75%, 93% { height: var(--sampling-height-4); }
+      100% { height: var(--sampling-height-1); }
     }
 
-    @keyframes prediction-probability-start {
-      0%, 44% { opacity: 1; transform: translateY(0); }
-      100% { opacity: 0; transform: translateY(-3px); }
-    }
-
-    @keyframes prediction-probability-end {
-      0%, 44% { opacity: 0; transform: translateY(3px); }
+    @keyframes prediction-cycle-state-1 {
+      0%, 18% { opacity: 1; transform: translateY(0); }
+      23%, 95% { opacity: 0; transform: translateY(-3px); }
       100% { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes prediction-cycle-state-2 {
+      0%, 20% { opacity: 0; transform: translateY(3px); }
+      25%, 43% { opacity: 1; transform: translateY(0); }
+      48%, 100% { opacity: 0; transform: translateY(-3px); }
+    }
+
+    @keyframes prediction-cycle-state-3 {
+      0%, 45% { opacity: 0; transform: translateY(3px); }
+      50%, 68% { opacity: 1; transform: translateY(0); }
+      73%, 100% { opacity: 0; transform: translateY(-3px); }
+    }
+
+    @keyframes prediction-cycle-state-4 {
+      0%, 70% { opacity: 0; transform: translateY(3px); }
+      75%, 93% { opacity: 1; transform: translateY(0); }
+      98%, 100% { opacity: 0; transform: translateY(-3px); }
+    }
+
+    @keyframes prediction-sampling-range-cycle {
+      0%, 18% { width: calc(50% - 6px); opacity: 1; }
+      25%, 68% { width: calc(75% - 9px); opacity: 1; }
+      75%, 93% { width: calc(100% - 24px); opacity: 1; }
+      100% { width: calc(50% - 6px); opacity: 1; }
+    }
+
+    @keyframes prediction-sampling-excluded-cycle {
+      0%, 18% { right: 47%; opacity: 1; }
+      25%, 68% { right: 22%; opacity: 1; }
+      75%, 93% { right: 3%; opacity: 0; }
+      100% { right: 47%; opacity: 1; }
+    }
+
+    @keyframes prediction-third-candidate-cycle {
+      0%, 18% { opacity: .46; filter: saturate(.4); }
+      25%, 100% { opacity: 1; filter: saturate(1); }
+    }
+
+    @keyframes prediction-fourth-candidate-cycle {
+      0%, 68% { opacity: .46; filter: saturate(.4); }
+      75%, 93% { opacity: 1; filter: saturate(1); }
+      100% { opacity: .46; filter: saturate(.4); }
+    }
+
+    @keyframes prediction-sampling-choice-cycle {
+      0%, 54%, 64%, 100% { transform: translateY(0); }
+      59% { transform: translateY(-6px); }
     }
 
     @keyframes prediction-sampling-range {
@@ -3093,37 +3157,45 @@
               <div class="prediction-sampling-guide" id="predictionSamplingGuide">
                 <div class="prediction-temperature">
                   <span>更集中</span>
-                  <span class="prediction-temperature__track"><i class="prediction-temperature__knob"></i></span>
+                  <span class="prediction-temperature__track">
+                    <i class="prediction-temperature__knob"></i>
+                    <span class="prediction-temperature__value" aria-hidden="true">
+                      <span class="prediction-cycle-state-1">T = 0.3</span>
+                      <span class="prediction-cycle-state-2">T = 0.6</span>
+                      <span class="prediction-cycle-state-3">T = 1.0</span>
+                      <span class="prediction-cycle-state-4">T = 1.6</span>
+                    </span>
+                  </span>
                   <span>更多样</span>
                 </div>
               </div>
               <div class="prediction-options" id="predictionOptions">
                 <div class="prediction-sampling-range" id="predictionSamplingRange"><span>Top-p 候选范围 · 累计约 90%</span></div>
                 <div class="prediction-sampling-excluded" id="predictionSamplingExcluded">范围外</div>
-                <div class="prediction-row" data-prediction-row="0" style="--sampling-start-height:126px;--sampling-height:106px;--sampling-color:#94310c">
-                  <span class="prediction-sampling-probability"><span class="prediction-sampling-probability__start">68%</span><span class="prediction-sampling-probability__end">41%</span></span>
+                <div class="prediction-row" data-prediction-row="0" style="--sampling-height-1:92px;--sampling-height-2:71px;--sampling-height-3:60px;--sampling-height-4:53px;--sampling-color:#94310c">
+                  <span class="prediction-sampling-probability"><span class="prediction-cycle-state-1">69%</span><span class="prediction-cycle-state-2">51%</span><span class="prediction-cycle-state-3">41%</span><span class="prediction-cycle-state-4">35%</span></span>
                   <span class="prediction-token" data-prediction-token="0" style="--probability-color:#94310c;--probability-ink:#fff">关于</span>
                   <span class="prediction-token" data-prediction-token="1">文字</span>
                   <span class="prediction-token" data-prediction-token="2">与</span>
                   <span class="prediction-token" data-prediction-token="3">图像</span>
                 </div>
-                <div class="prediction-row" data-prediction-row="1" style="--sampling-start-height:48px;--sampling-height:82px;--sampling-color:#dd6102">
-                  <span class="prediction-sampling-probability"><span class="prediction-sampling-probability__start">20%</span><span class="prediction-sampling-probability__end">30%</span></span>
+                <div class="prediction-row" data-prediction-row="1" style="--sampling-height-1:41px;--sampling-height-2:47px;--sampling-height-3:47px;--sampling-height-4:46px;--sampling-color:#dd6102">
+                  <span class="prediction-sampling-probability"><span class="prediction-cycle-state-1">25%</span><span class="prediction-cycle-state-2">30%</span><span class="prediction-cycle-state-3">30%</span><span class="prediction-cycle-state-4">29%</span></span>
                   <span class="prediction-token" data-prediction-token="0" style="--probability-color:#dd6102;--probability-ink:#fff">不只是</span>
                   <span class="prediction-token" data-prediction-token="1">一种</span>
                   <span class="prediction-token" data-prediction-token="2">聊天</span>
                   <span class="prediction-token" data-prediction-token="3">工具</span>
                 </div>
-                <div class="prediction-row" data-prediction-row="2" style="--sampling-start-height:25px;--sampling-height:56px;--sampling-color:#ffae29">
-                  <span class="prediction-sampling-probability"><span class="prediction-sampling-probability__start">8%</span><span class="prediction-sampling-probability__end">19%</span></span>
+                <div class="prediction-row" data-prediction-row="2" style="--sampling-height-1:18px;--sampling-height-2:28px;--sampling-height-3:34px;--sampling-height-4:38px;--sampling-color:#ffae29">
+                  <span class="prediction-sampling-probability"><span class="prediction-cycle-state-1">5%</span><span class="prediction-cycle-state-2">14%</span><span class="prediction-cycle-state-3">19%</span><span class="prediction-cycle-state-4">22%</span></span>
                   <span class="prediction-token" data-prediction-token="0" style="--probability-color:#ffae29;--probability-ink:#000">一种</span>
                   <span class="prediction-token" data-prediction-token="1">根据上下文</span>
                   <span class="prediction-token" data-prediction-token="2">生成内容</span>
                   <span class="prediction-token" data-prediction-token="3">的</span>
                   <span class="prediction-token" data-prediction-token="4">技术</span>
                 </div>
-                <div class="prediction-row" data-prediction-row="3" style="--sampling-start-height:14px;--sampling-height:34px;--sampling-color:#ffe0a3">
-                  <span class="prediction-sampling-probability"><span class="prediction-sampling-probability__start">4%</span><span class="prediction-sampling-probability__end">10%</span></span>
+                <div class="prediction-row" data-prediction-row="3" style="--sampling-height-1:13px;--sampling-height-2:18px;--sampling-height-3:24px;--sampling-height-4:28px;--sampling-color:#ffe0a3">
+                  <span class="prediction-sampling-probability"><span class="prediction-cycle-state-1">1%</span><span class="prediction-cycle-state-2">5%</span><span class="prediction-cycle-state-3">10%</span><span class="prediction-cycle-state-4">14%</span></span>
                   <span class="prediction-token" data-prediction-token="0" style="--probability-color:#ffae29;--probability-ink:#000">由</span>
                   <span class="prediction-token" data-prediction-token="1">Transformer</span>
                   <span class="prediction-token" data-prediction-token="2">驱动</span>
